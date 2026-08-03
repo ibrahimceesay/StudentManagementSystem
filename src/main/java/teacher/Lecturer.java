@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "teacher")
+@Table(name = "lecturer")
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Teacher {
+public class Lecturer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

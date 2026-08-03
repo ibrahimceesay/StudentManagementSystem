@@ -3,6 +3,8 @@ package student.dto;
 import lombok.*;
 import student.Gender;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 
@@ -24,4 +26,6 @@ public class StudentResponse {
     private String schoolName;
 
     private String departmentName;
+
+    private LocalDateTime createdAt;
 }

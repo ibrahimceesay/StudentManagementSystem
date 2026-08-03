@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import school.School;
 import student.Student;
-import teacher.Teacher;
+import teacher.Lecturer;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class Department {
     private School school;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    private Set<Teacher> teachers = new HashSet<>();
+    private Set<Lecturer> teachers = new HashSet<>();
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();

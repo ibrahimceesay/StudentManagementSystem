@@ -60,6 +60,7 @@ public class StudentService {
         studentResponse.setStudentNumber(saved.getStudentNumber());
         studentResponse.setSchoolName(saved.getDepartment().getSchool().getName());
         studentResponse.setDepartmentName(saved.getDepartment().getName());
+        studentResponse.setCreatedAt(saved.getCreatedAt());
 
         return studentResponse;
     }
