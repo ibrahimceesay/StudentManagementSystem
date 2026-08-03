@@ -1,11 +1,11 @@
-package department;
+package com.dev.StudentManagementSystem.department;
 
-import course.Course;
+import com.dev.StudentManagementSystem.course.Course;
 import jakarta.persistence.*;
 import lombok.*;
-import school.School;
-import student.Student;
-import lecturer.Lecturer;
+import com.dev.StudentManagementSystem.school.School;
+import com.dev.StudentManagementSystem.student.Student;
+import com.dev.StudentManagementSystem.lecturer.Lecturer;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -36,7 +36,7 @@ public class Department {
     private School school;
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
-    private Set<Lecturer> teachers = new HashSet<>();
+    private Set<Lecturer> lecturers = new HashSet<>();
 
     @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();

@@ -1,4 +1,4 @@
-package department;
+package com.dev.StudentManagementSystem.department;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

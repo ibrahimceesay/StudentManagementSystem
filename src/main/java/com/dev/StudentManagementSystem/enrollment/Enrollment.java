@@ -1,9 +1,9 @@
-package enrollment;
+package com.dev.StudentManagementSystem.enrollment;
 
-import course.Course;
+import com.dev.StudentManagementSystem.course.Course;
 import jakarta.persistence.*;
 import lombok.*;
-import student.Student;
+import com.dev.StudentManagementSystem.student.Student;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

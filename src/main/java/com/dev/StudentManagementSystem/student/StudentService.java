@@ -1,13 +1,13 @@
-package student;
+package com.dev.StudentManagementSystem.student;
 
-import common.ResourceNotFoundException;
-import department.Department;
-import department.DepartmentRepository;
+import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
+import com.dev.StudentManagementSystem.department.Department;
+import com.dev.StudentManagementSystem.department.DepartmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import student.dto.CreateStudentRequest;
-import student.dto.StudentResponse;
+import com.dev.StudentManagementSystem.student.dto.CreateStudentRequest;
+import com.dev.StudentManagementSystem.student.dto.StudentResponse;
 
 import java.time.Year;
 

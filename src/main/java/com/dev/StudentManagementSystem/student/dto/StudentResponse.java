@@ -1,7 +1,7 @@
-package student.dto;
+package com.dev.StudentManagementSystem.student.dto;
 
 import lombok.*;
-import student.Gender;
+import com.dev.StudentManagementSystem.student.Gender;
 
 import java.time.LocalDateTime;
 

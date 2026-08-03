@@ -1,9 +1,9 @@
-package course;
+package com.dev.StudentManagementSystem.course;
 
-import department.Department;
-import enrollment.Enrollment;
+import com.dev.StudentManagementSystem.department.Department;
+import com.dev.StudentManagementSystem.enrollment.Enrollment;
 import jakarta.persistence.*;
-import lecturer.Lecturer;
+import com.dev.StudentManagementSystem.lecturer.Lecturer;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -44,13 +44,13 @@ public class Course {
     private Lecturer lecturer;
 
     @OneToMany(mappedBy = "course")
-    private Enrollment enrollment;
+    private Set<Enrollment> enrollment = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "department_course",
             joinColumns = @JoinColumn(name = "department_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Set<Department> department = new HashSet<>();
+    private Set<Department> departments = new HashSet<>();
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createAt;

@@ -1,7 +1,7 @@
-package lecturer;
+package com.dev.StudentManagementSystem.lecturer;
 
-import course.Course;
-import department.Department;
+import com.dev.StudentManagementSystem.course.Course;
+import com.dev.StudentManagementSystem.department.Department;
 import jakarta.persistence.*;
 import lombok.*;
 

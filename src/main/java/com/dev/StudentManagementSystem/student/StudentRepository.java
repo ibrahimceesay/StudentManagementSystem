@@ -1,4 +1,4 @@
-package student;
+package com.dev.StudentManagementSystem.student;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

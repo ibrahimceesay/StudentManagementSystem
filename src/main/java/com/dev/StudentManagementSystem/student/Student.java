@@ -1,7 +1,7 @@
-package student;
+package com.dev.StudentManagementSystem.student;
 
-import department.Department;
-import enrollment.Enrollment;
+import com.dev.StudentManagementSystem.department.Department;
+import com.dev.StudentManagementSystem.enrollment.Enrollment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

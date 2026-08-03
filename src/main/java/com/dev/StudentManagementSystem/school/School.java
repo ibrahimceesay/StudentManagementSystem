@@ -1,6 +1,6 @@
-package school;
+package com.dev.StudentManagementSystem.school;
 
-import department.Department;
+import com.dev.StudentManagementSystem.department.Department;
 import jakarta.persistence.*;
 import lombok.*;
 

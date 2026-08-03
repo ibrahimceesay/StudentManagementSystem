@@ -1,9 +1,9 @@
-package student.dto;
+package com.dev.StudentManagementSystem.student.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import student.Gender;
+import com.dev.StudentManagementSystem.student.Gender;
 
 @Getter
 @Setter
