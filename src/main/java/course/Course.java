@@ -1,8 +1,14 @@
 package course;
 
 import department.Department;
+import enrollment.Enrollment;
 import jakarta.persistence.*;
+import lecturer.Lecturer;
 import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "course")
@@ -29,11 +35,32 @@ public class Course {
     private Integer creditHours;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
+
+    @Column(name = "enrollment_spots")
+    private Integer enrollmentSpots;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Lecturer lecturer;
+
+    @OneToMany(mappedBy = "course")
+    private Enrollment enrollment;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "department_course",
             joinColumns = @JoinColumn(name = "department_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Department department;
+    private Set<Department> department = new HashSet<>();
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {this.createAt = LocalDateTime.now();}
+
+    @PreUpdate
+    protected void onUpdate() {this.updatedAt = LocalDateTime.now();}
 }

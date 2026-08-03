@@ -1,4 +1,4 @@
-package teacher;
+package lecturer;
 
 import course.Course;
 import department.Department;
@@ -40,7 +40,7 @@ public class Lecturer {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY)
     private Set<Course> courses = new HashSet<>();
 
     @Column(name = "created_at", updatable = false)

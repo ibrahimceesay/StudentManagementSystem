@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import school.School;
 import student.Student;
-import teacher.Lecturer;
+import lecturer.Lecturer;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

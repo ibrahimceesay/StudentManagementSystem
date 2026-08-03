@@ -3,23 +3,22 @@ package student;
 import common.ResourceNotFoundException;
 import department.Department;
 import department.DepartmentRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import student.dto.CreateStudentRequest;
 import student.dto.StudentResponse;
 
 import java.time.Year;
 
 @Service
-
+@Transactional
 @AllArgsConstructor
 public class StudentService {
 
     private final DepartmentRepository departmentRepository;
     private final StudentRepository studentRepository;
 
-    @Transactional
     public StudentResponse createStudent(CreateStudentRequest request){
 
         Department department = findDepartment(request.getDepartmentId());
