@@ -1,4 +1,4 @@
-package common;
+package com.dev.StudentManagementSystem.common;
 
 public class ResourceNotFoundException extends RuntimeException {
 
