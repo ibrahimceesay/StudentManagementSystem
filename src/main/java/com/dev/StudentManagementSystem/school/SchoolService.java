@@ -1,6 +1,9 @@
 package com.dev.StudentManagementSystem.school;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
+import com.dev.StudentManagementSystem.department.Department;
+import com.dev.StudentManagementSystem.department.DepartmentRepository;
+import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.school.dto.CreateSchoolRequest;
 import com.dev.StudentManagementSystem.school.dto.SchoolResponse;
 import com.dev.StudentManagementSystem.school.dto.UpdatedSchoolResponse;
@@ -18,6 +21,7 @@ import java.util.List;
 public class SchoolService {
 
     private final SchoolRepository schoolRepository;
+    private final DepartmentRepository departmentRepository;
 
     /**
      * Create new school entity
@@ -45,6 +49,23 @@ public class SchoolService {
         return schoolRepository.findAll()
                 .stream()
                 .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Retrieve all departments by school
+     *
+     */
+    @Transactional(readOnly = true)
+    public List<DepartmentResponse> getAllDepartmentsBySchool(Long id) {
+
+        if (!schoolRepository.existsById(id)) {
+            throw new IllegalStateException("School does not exist with id: " + id);
+        }
+
+        return departmentRepository.findBySchoolId(id)
+                .stream()
+                .map(this::toDepartmentResponse)
                 .toList();
     }
 
@@ -100,6 +121,22 @@ public class SchoolService {
         return response;
     }
 
+    /**
+     * Helper method to map Department to DepartmentResponse
+     * */
+    private DepartmentResponse toDepartmentResponse(Department saved) {
+
+        DepartmentResponse response = new DepartmentResponse();
+
+        response.setId(saved.getId());
+        response.setName(saved.getName());
+        response.setDepartmentCode(saved.getDepartmentCode());
+        response.setSchoolName(saved.getSchool().getName());
+        response.setIsActive(saved.getIsActive());
+        response.setCreatedAt(saved.getCreatedAt());
+
+        return response;
+    }
     /**
      * Map type School to type UpdatedSchoolResponse
      */

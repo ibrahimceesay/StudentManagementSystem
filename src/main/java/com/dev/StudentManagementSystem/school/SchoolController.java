@@ -1,5 +1,6 @@
 package com.dev.StudentManagementSystem.school;
 
+import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.school.dto.CreateSchoolRequest;
 import com.dev.StudentManagementSystem.school.dto.SchoolResponse;
 import com.dev.StudentManagementSystem.school.dto.UpdatedSchoolResponse;
@@ -43,6 +44,15 @@ public class SchoolController {
     @ResponseStatus(HttpStatus.OK)
     public SchoolResponse findById(@PathVariable Long id) {
         return schoolService.findById(id);
+    }
+
+    /**
+     * Get mapping to retrieve all departments from a school
+     * */
+    @GetMapping("/{id}/departments")
+    @ResponseStatus(HttpStatus.OK)
+    public List<DepartmentResponse> getAllDepartmentsBySchool(@PathVariable Long id) {
+        return schoolService.getAllDepartmentsBySchool(id);
     }
 
     /**
