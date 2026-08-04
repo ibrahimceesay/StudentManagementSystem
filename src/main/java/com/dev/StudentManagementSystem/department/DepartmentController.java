@@ -33,4 +33,9 @@ public class DepartmentController {
     public List<DepartmentResponse> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
+
+    @GetMapping("/{id}/departments")
+    public List<DepartmentResponse> getAllDepartmentsBySchool(@PathVariable Long id){
+        return departmentService.getAllDepartmentsBySchool(id);
+    }
 }

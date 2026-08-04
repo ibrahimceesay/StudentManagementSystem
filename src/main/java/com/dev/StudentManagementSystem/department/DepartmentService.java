@@ -76,4 +76,16 @@ public class DepartmentService {
 
         return response;
     }
+
+    public List<DepartmentResponse> getAllDepartmentsBySchool(Long id) {
+
+        if (!schoolRepository.existsById(id)){
+            throw new IllegalStateException("School does not exist with id: " + id);
+        }
+
+        return departmentRepository.findBySchoolId(id)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
 }
