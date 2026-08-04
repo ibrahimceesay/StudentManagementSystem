@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @AllArgsConstructor
 
@@ -25,5 +24,10 @@ public class SchoolController {
     @GetMapping
     public List<SchoolResponse> getAllSchools(){
         return schoolService.getAllSchools();
+    }
+
+    @GetMapping("/{id}")
+    public SchoolResponse findById(@PathVariable Long id){
+        return schoolService.findById(id);
     }
 }
