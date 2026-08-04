@@ -6,6 +6,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.List;
+
+
 @AllArgsConstructor
 @Transactional
 @Service
@@ -25,6 +29,14 @@ public class SchoolService {
 
         School saved = schoolRepository.save(school);
         return toResponse(saved);
+    }
+
+    public List<SchoolResponse> getAllSchools() {
+
+        return schoolRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     private SchoolResponse toResponse(School saved) {
