@@ -2,8 +2,12 @@ package com.dev.StudentManagementSystem.department;
 
 import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
+import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
+import com.dev.StudentManagementSystem.department.dto.UpdatedDepartmentResponse;
+import com.dev.StudentManagementSystem.school.dto.UpdatedSchoolResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 
 @RestController
-@RequestMapping("/api/department")
+@RequestMapping("/api/departments")
 
 public class DepartmentController {
 
@@ -22,6 +26,7 @@ public class DepartmentController {
      * Post mapping to create a new department
      */
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public DepartmentResponse createDepartment(@Valid @RequestBody CreateDepartmentRequest request) {
         return departmentService.createDepartment(request);
     }
@@ -30,12 +35,18 @@ public class DepartmentController {
      * Get mapping to retrieve all departments
      */
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<DepartmentResponse> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
 
-    @GetMapping("/{id}/departments")
-    public List<DepartmentResponse> getAllDepartmentsBySchool(@PathVariable Long id){
-        return departmentService.getAllDepartmentsBySchool(id);
+    /**
+     * Update mapping
+     * */
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UpdatedDepartmentResponse updateDepartment(@PathVariable Long id, @Valid @RequestBody UpdateDepartmentRequest request) {
+        return departmentService.updateDepartment(id, request);
     }
+
 }

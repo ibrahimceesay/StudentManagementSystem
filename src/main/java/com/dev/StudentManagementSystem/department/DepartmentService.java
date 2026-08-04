@@ -3,6 +3,8 @@ package com.dev.StudentManagementSystem.department;
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
 import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
+import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
+import com.dev.StudentManagementSystem.department.dto.UpdatedDepartmentResponse;
 import com.dev.StudentManagementSystem.school.School;
 import com.dev.StudentManagementSystem.school.SchoolRepository;
 import lombok.AllArgsConstructor;
@@ -50,13 +52,35 @@ public class DepartmentService {
 
     /**
      * Retrieve all departments
-     * */
+     *
+     */
 
-    public List<DepartmentResponse> getAllDepartments(){
+    @Transactional(readOnly = true)
+    public List<DepartmentResponse> getAllDepartments() {
         return departmentRepository.findAll()
                 .stream()
                 .map(this::toResponse)
                 .toList();
+    }
+
+    public UpdatedDepartmentResponse updateDepartment(Long id, UpdateDepartmentRequest request) {
+
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+
+        if (!department.getName().equals(request.getName())
+                && departmentRepository.existsByName(request.getName())
+                && departmentRepository.existsByDepartmentCode(request.getDepartmentCode())) {
+            throw new IllegalStateException("Department with name: " + request.getName() +
+                    " and with department code " +
+                    request.getDepartmentCode() + " already exist");
+        }
+
+        department.setName(request.getName());
+        department.setDepartmentCode(request.getDepartmentCode());
+
+        Department saved = departmentRepository.save(department);
+        return toUpdatedDepartmentResponse(saved);
     }
 
     /**
@@ -77,15 +101,18 @@ public class DepartmentService {
         return response;
     }
 
-    public List<DepartmentResponse> getAllDepartmentsBySchool(Long id) {
+    private UpdatedDepartmentResponse toUpdatedDepartmentResponse(Department saved) {
 
-        if (!schoolRepository.existsById(id)){
-            throw new IllegalStateException("School does not exist with id: " + id);
-        }
+        UpdatedDepartmentResponse response = new UpdatedDepartmentResponse();
 
-        return departmentRepository.findBySchoolId(id)
-                .stream()
-                .map(this::toResponse)
-                .toList();
+        response.setId(saved.getId());
+        response.setName(saved.getName());
+        response.setDepartmentCode(saved.getDepartmentCode());
+        response.setSchoolName(saved.getSchool().getName());
+        response.setIsActive(saved.getIsActive());
+        response.setCreatedAt(saved.getCreatedAt());
+        response.setUpdatedAt(saved.getUpdatedAt());
+
+        return response;
     }
 }
