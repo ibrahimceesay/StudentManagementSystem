@@ -30,6 +30,9 @@ public class DepartmentController {
         return departmentService.createDepartment(request);
     }
 
+    /**
+     * Get mapping to get a department by id
+     * */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DepartmentResponse getDepartment(@PathVariable Long id){

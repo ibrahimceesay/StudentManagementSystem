@@ -130,6 +130,9 @@ public class DepartmentService {
         return response;
     }
 
+    /**
+     * Helper method to map Department to UpdatedDepartmentResponse
+     * */
     private UpdatedDepartmentResponse toUpdatedDepartmentResponse(Department saved) {
 
         UpdatedDepartmentResponse response = new UpdatedDepartmentResponse();
