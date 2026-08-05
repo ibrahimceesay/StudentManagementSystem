@@ -4,7 +4,6 @@ import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.UpdatedDepartmentResponse;
-import com.dev.StudentManagementSystem.school.dto.UpdatedSchoolResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,6 +46,15 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.OK)
     public UpdatedDepartmentResponse updateDepartment(@PathVariable Long id, @Valid @RequestBody UpdateDepartmentRequest request) {
         return departmentService.updateDepartment(id, request);
+    }
+
+    /**
+     * Delete mapping to deactivate department
+     * */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deActivateDepartment(@PathVariable Long id){
+        departmentService.deActivateDepartment(id);
     }
 
 }
