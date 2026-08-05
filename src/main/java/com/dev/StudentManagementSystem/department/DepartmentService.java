@@ -63,6 +63,17 @@ public class DepartmentService {
     }
 
     /**
+     * Retrieve specific department by id
+     * */
+    @Transactional(readOnly = true)
+    public DepartmentResponse getDepartment(Long id){
+        Department department = departmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+
+        return toResponse(department);
+    }
+
+    /**
      * Update department information
      * */
     public UpdatedDepartmentResponse updateDepartment(Long id, UpdateDepartmentRequest request) {
@@ -92,7 +103,7 @@ public class DepartmentService {
     public void deActivateDepartment(Long id) {
 
         Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
 
         department.setIsActive(false);
 
