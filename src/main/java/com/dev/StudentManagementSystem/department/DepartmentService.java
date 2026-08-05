@@ -81,12 +81,14 @@ public class DepartmentService {
         Department department = departmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
 
-        if (!department.getName().equals(request.getName())
-                && departmentRepository.existsByName(request.getName())
-                && departmentRepository.existsByDepartmentCode(request.getDepartmentCode())) {
-            throw new IllegalStateException("Department with name: " + request.getName() +
-                    " and with department code " +
-                    request.getDepartmentCode() + " already exist");
+        if(!department.getName().equals(request.getName()) &&
+                departmentRepository.existsByName(request.getName())){
+            throw new IllegalStateException("Department exist with name: " + request.getName());
+        }
+
+        if(!department.getDepartmentCode().equals(request.getDepartmentCode()) &&
+                departmentRepository.existsByDepartmentCode(request.getDepartmentCode())){
+            throw new IllegalStateException("Department exist with code: " + request.getDepartmentCode());
         }
 
         department.setName(request.getName());
