@@ -17,5 +17,5 @@ public class CreateDepartmentRequest {
     private String departmentCode;
 
     @NotNull(message = "School id is required")
-    private Long school_id;
+    private Long schoolId;
 }

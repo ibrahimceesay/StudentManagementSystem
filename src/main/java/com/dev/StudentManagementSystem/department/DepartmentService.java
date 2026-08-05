@@ -28,8 +28,8 @@ public class DepartmentService {
      */
     public DepartmentResponse createDepartment(CreateDepartmentRequest request) {
 
-        School school = schoolRepository.findById(request.getSchool_id())
-                .orElseThrow(() -> new ResourceNotFoundException("School does not exist with id: " + request.getSchool_id()));
+        School school = schoolRepository.findById(request.getSchoolId())
+                .orElseThrow(() -> new ResourceNotFoundException("School does not exist with id: " + request.getSchoolId()));
 
         if (departmentRepository.existsByName(request.getName())) {
             throw new IllegalStateException("Department already exist with name: " + request.getName());
