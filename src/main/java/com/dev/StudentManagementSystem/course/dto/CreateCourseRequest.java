@@ -1,9 +1,12 @@
 package com.dev.StudentManagementSystem.course.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,4 +27,7 @@ public class CreateCourseRequest {
 
     @NotNull(message = "Lecturer id is required")
     private Long lecturerId;
+
+    @NotEmpty(message = "At least one department is required")
+    private Set<Long> departmentIds;
 }

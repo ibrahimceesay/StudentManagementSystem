@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 
@@ -119,9 +120,21 @@ public class DepartmentService {
         departmentRepository.save(department);
     }
 
+    /**
+     * Retrieve a department by id
+     */
+    @Transactional(readOnly = true)
     public Department findById(Long id) {
         return departmentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+    }
+
+    /**
+     * Retrieve multiple departments by id
+     */
+    @Transactional(readOnly = true)
+    public List<Department> findDepartmentsById(Set<Long> ids) {
+        return departmentRepository.findAllById(ids);
     }
 
     /**
@@ -144,7 +157,6 @@ public class DepartmentService {
 
     /**
      * Helper method to map Department to UpdatedDepartmentResponse
-     *
      */
     private UpdatedDepartmentResponse toUpdatedDepartmentResponse(Department saved) {
 
