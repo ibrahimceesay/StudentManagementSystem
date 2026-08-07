@@ -3,6 +3,7 @@ package com.dev.StudentManagementSystem.school;
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
 import com.dev.StudentManagementSystem.department.Department;
 import com.dev.StudentManagementSystem.department.DepartmentRepository;
+import com.dev.StudentManagementSystem.department.DepartmentService;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.school.dto.CreateSchoolRequest;
 import com.dev.StudentManagementSystem.school.dto.SchoolResponse;
@@ -21,7 +22,7 @@ import java.util.List;
 public class SchoolService {
 
     private final SchoolRepository schoolRepository;
-    private final DepartmentRepository departmentRepository;
+    private final DepartmentService departmentService;
 
     /**
      * Create new school entity
@@ -45,7 +46,6 @@ public class SchoolService {
      */
     @Transactional(readOnly = true)
     public List<SchoolResponse> getAllSchools() {
-
         return schoolRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -54,7 +54,6 @@ public class SchoolService {
 
     /**
      * Retrieve all departments by school
-     *
      */
     @Transactional(readOnly = true)
     public List<DepartmentResponse> getAllDepartmentsBySchool(Long id) {
@@ -63,10 +62,7 @@ public class SchoolService {
             throw new IllegalStateException("School does not exist with id: " + id);
         }
 
-        return departmentRepository.findBySchoolId(id)
-                .stream()
-                .map(this::toDepartmentResponse)
-                .toList();
+        return departmentService.getDepartmentsBySchoolId(id);
     }
 
     /**
@@ -74,8 +70,7 @@ public class SchoolService {
      */
     public UpdatedSchoolResponse updateSchoolInfo(Long id, CreateSchoolRequest request) {
 
-        School school = schoolRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
+        School school = findById(id);
 
         if (!school.getName().equals(request.getName()) && schoolRepository.existsByName(request.getName())) {
             throw new IllegalStateException("School already exits with name: " + request.getName());
@@ -91,8 +86,7 @@ public class SchoolService {
      */
     public void deActivateSchool(Long id) {
 
-        School school = schoolRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
+        School school = findById(id);
 
         school.setIsActive(false);
     }
@@ -101,10 +95,18 @@ public class SchoolService {
      * Method helper to find school by id
      */
     @Transactional(readOnly = true)
-    public SchoolResponse findById(Long id) {
-        School school = schoolRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
+    public SchoolResponse findSchoolById(Long id) {
+        School school = findById(id);
         return toResponse(school);
+    }
+
+    /**
+     * Retrieve a school by id
+     * */
+    @Transactional(readOnly = true)
+    public School findById(Long id){
+        return schoolRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
     }
 
     /**

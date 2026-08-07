@@ -52,7 +52,6 @@ public class DepartmentService {
 
     /**
      * Retrieve all departments
-     *
      */
     @Transactional(readOnly = true)
     public List<DepartmentResponse> getAllDepartments() {
@@ -63,31 +62,40 @@ public class DepartmentService {
     }
 
     /**
-     * Retrieve specific department by id
-     * */
+     * Retrieve all departments belonging to a school by school id
+     */
     @Transactional(readOnly = true)
-    public DepartmentResponse getDepartment(Long id){
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+    public List<DepartmentResponse> getDepartmentsBySchoolId(Long id) {
+        return departmentRepository.findBySchoolId(id)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
+     * Retrieve specific department by id
+     */
+    @Transactional(readOnly = true)
+    public DepartmentResponse getDepartment(Long id) {
+        Department department = findById(id);
 
         return toResponse(department);
     }
 
     /**
      * Update department information
-     * */
+     */
     public UpdatedDepartmentResponse updateDepartment(Long id, UpdateDepartmentRequest request) {
 
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+        Department department = findById(id);
 
-        if(!department.getName().equals(request.getName()) &&
-                departmentRepository.existsByName(request.getName())){
+        if (!department.getName().equals(request.getName()) &&
+                departmentRepository.existsByName(request.getName())) {
             throw new IllegalStateException("Department exist with name: " + request.getName());
         }
 
-        if(!department.getDepartmentCode().equals(request.getDepartmentCode()) &&
-                departmentRepository.existsByDepartmentCode(request.getDepartmentCode())){
+        if (!department.getDepartmentCode().equals(request.getDepartmentCode()) &&
+                departmentRepository.existsByDepartmentCode(request.getDepartmentCode())) {
             throw new IllegalStateException("Department exist with code: " + request.getDepartmentCode());
         }
 
@@ -100,16 +108,20 @@ public class DepartmentService {
 
     /**
      * Deactivate department
-     * */
+     */
 
     public void deActivateDepartment(Long id) {
 
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
+        Department department = findById(id);
 
         department.setIsActive(false);
 
         departmentRepository.save(department);
+    }
+
+    public Department findById(Long id) {
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found with id: " + id));
     }
 
     /**
@@ -132,7 +144,8 @@ public class DepartmentService {
 
     /**
      * Helper method to map Department to UpdatedDepartmentResponse
-     * */
+     *
+     */
     private UpdatedDepartmentResponse toUpdatedDepartmentResponse(Department saved) {
 
         UpdatedDepartmentResponse response = new UpdatedDepartmentResponse();

@@ -43,7 +43,7 @@ public class SchoolController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SchoolResponse findById(@PathVariable Long id) {
-        return schoolService.findById(id);
+        return schoolService.findSchoolById(id);
     }
 
     /**
