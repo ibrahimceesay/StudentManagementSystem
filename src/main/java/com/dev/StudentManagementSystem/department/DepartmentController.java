@@ -1,5 +1,6 @@
 package com.dev.StudentManagementSystem.department;
 
+import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
@@ -46,6 +47,15 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.OK)
     public List<DepartmentResponse> getAllDepartments() {
         return departmentService.getAllDepartments();
+    }
+
+    /**
+     * Retrieve all courses from a department
+     * */
+    @GetMapping("/{id}/courses")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponse> getCoursesByDepartment(@PathVariable Long id){
+        return departmentService.getCoursesByDepartment(id);
     }
 
     /**
