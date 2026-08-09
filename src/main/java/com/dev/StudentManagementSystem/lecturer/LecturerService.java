@@ -1,6 +1,9 @@
 package com.dev.StudentManagementSystem.lecturer;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
+import com.dev.StudentManagementSystem.course.CourseRepository;
+import com.dev.StudentManagementSystem.course.CourseService;
+import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.department.Department;
 import com.dev.StudentManagementSystem.department.DepartmentService;
 import com.dev.StudentManagementSystem.lecturer.dto.CreateLecturerRequest;
@@ -20,6 +23,7 @@ import java.util.List;
 public class LecturerService {
 
     private final LecturerRepository lecturerRepository;
+    private final CourseService courseService;
     private final DepartmentService departmentService;
 
     /**
@@ -66,18 +70,14 @@ public class LecturerService {
         return toResponse(lecturer);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<CourseResponse> getLecturerCourses(Long id){
-//        if(!lecturerRepository.existsById(id)){
-//            throw new ResourceNotFoundException("Lecturer not found with id: " + id);
-//        }
-//
-//        return lecturerRepository.findCoursesByLecturerId(id)
-//                .stream()
-//                .map()
-//                .toList();
-//
-//    }
+    @Transactional(readOnly = true)
+    public List<CourseResponse> getLecturerCourses(Long id){
+        if(!lecturerRepository.existsById(id)){
+            throw new ResourceNotFoundException("Lecturer not found with id: " + id);
+        }
+
+        return courseService.getCoursesByLecturerId(id);
+    }
 
     /**
      * Update lecturer information
