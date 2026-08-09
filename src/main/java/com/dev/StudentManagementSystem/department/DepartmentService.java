@@ -1,12 +1,14 @@
 package com.dev.StudentManagementSystem.department;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
+import com.dev.StudentManagementSystem.course.CourseService;
+import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.UpdatedDepartmentResponse;
 import com.dev.StudentManagementSystem.school.School;
-import com.dev.StudentManagementSystem.school.SchoolRepository;
+import com.dev.StudentManagementSystem.school.SchoolService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,15 +24,15 @@ import java.util.Set;
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
-    private final SchoolRepository schoolRepository;
+    private final CourseService courseService;
+    private final SchoolService schoolService;
 
     /**
      * Create a new department entity
      */
     public DepartmentResponse createDepartment(CreateDepartmentRequest request) {
 
-        School school = schoolRepository.findById(request.getSchoolId())
-                .orElseThrow(() -> new ResourceNotFoundException("School does not exist with id: " + request.getSchoolId()));
+        School school = schoolService.findById(request.getSchoolId());
 
         if (departmentRepository.existsByName(request.getName())) {
             throw new IllegalStateException("Department already exist with name: " + request.getName());
@@ -81,6 +83,19 @@ public class DepartmentService {
         Department department = findById(id);
 
         return toResponse(department);
+    }
+
+    /**
+     * Retrieve all courses that belong to a department
+     */
+    @Transactional(readOnly = true)
+    public List<CourseResponse> getCoursesByDepartment(Long id) {
+
+        if (!departmentRepository.existsById(id)) {
+            throw new IllegalStateException("Department not found with id: " + id);
+        }
+
+        return courseService.getCoursesByDepartmentId(id);
     }
 
     /**
