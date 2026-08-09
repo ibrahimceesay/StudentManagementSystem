@@ -1,6 +1,7 @@
 package com.dev.StudentManagementSystem.lecturer;
 
 
+import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.lecturer.dto.CreateLecturerRequest;
 import com.dev.StudentManagementSystem.lecturer.dto.LecturerResponse;
 import com.dev.StudentManagementSystem.lecturer.dto.UpdateLecturerRequest;
@@ -38,10 +39,10 @@ public class LecturerController {
         return lecturerService.getLecturer(id);
     }
 
-//    @GetMapping("/{id}/courses")
-//    public List<CourseResponse> getLecturerCourses(@PathVariable Long id){
-//        return lecturerService.getLecturerCourses(id);
-//    }
+    @GetMapping("/{id}/courses")
+    public List<CourseResponse> getLecturerCourses(@PathVariable Long id){
+        return lecturerService.getLecturerCourses(id);
+    }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
