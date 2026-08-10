@@ -124,22 +124,6 @@ public class SchoolService {
     }
 
     /**
-     * Helper method to map Department to DepartmentResponse
-     * */
-    private DepartmentResponse toDepartmentResponse(Department saved) {
-
-        DepartmentResponse response = new DepartmentResponse();
-
-        response.setId(saved.getId());
-        response.setName(saved.getName());
-        response.setDepartmentCode(saved.getDepartmentCode());
-        response.setSchoolName(saved.getSchool().getName());
-        response.setIsActive(saved.getIsActive());
-        response.setCreatedAt(saved.getCreatedAt());
-
-        return response;
-    }
-    /**
      * Map type School to type UpdatedSchoolResponse
      */
     private UpdatedSchoolResponse toUpdateResponse(School saved) {
