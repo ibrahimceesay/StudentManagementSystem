@@ -84,15 +84,10 @@ public class CourseService {
 
         List<Department> departments = departmentService.findDepartmentsById(request.getDepartmentIds());
 
-        if(course.getLecturer().getId().equals(request.getLecturerId())) {
-            throw new IllegalStateException("Lecturer already assigned to course: " + request.getName());
-        }
-
         if(departments.size() != request.getDepartmentIds().size()){
             throw new IllegalStateException("One or more departments not found in list: " + request.getDepartmentIds());
         }
 
-        Course updatedCourse = new Course();
         course.setName(request.getName());
         course.setCourseCode(request.getCourseCode());
         course.setCreditHours(request.getCreditHours());
@@ -137,7 +132,7 @@ public class CourseService {
     @Transactional(readOnly = true)
     public List<CourseResponse> getCoursesByDepartmentId(Long id){
 
-        return courseRepository.findByDepartmentId(id)
+        return courseRepository.findByDepartmentsId(id)
                 .stream()
                 .map(this::toResponse)
                 .toList();
