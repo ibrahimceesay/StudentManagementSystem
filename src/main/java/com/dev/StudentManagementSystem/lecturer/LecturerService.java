@@ -1,7 +1,6 @@
 package com.dev.StudentManagementSystem.lecturer;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
-import com.dev.StudentManagementSystem.course.CourseRepository;
 import com.dev.StudentManagementSystem.course.CourseService;
 import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.department.Department;
@@ -70,9 +69,12 @@ public class LecturerService {
         return toResponse(lecturer);
     }
 
+    /**
+     * Retrieve all courses assigned to a lecturer
+     */
     @Transactional(readOnly = true)
-    public List<CourseResponse> getLecturerCourses(Long id){
-        if(!lecturerRepository.existsById(id)){
+    public List<CourseResponse> getLecturerCourses(Long id) {
+        if (!lecturerRepository.existsById(id)) {
             throw new ResourceNotFoundException("Lecturer not found with id: " + id);
         }
 
@@ -115,7 +117,6 @@ public class LecturerService {
 
     /**
      * Retrieve lecturer by id
-     *
      */
     @Transactional(readOnly = true)
     public Lecturer findById(Long id) {
