@@ -27,6 +27,9 @@ public class CourseService {
     private final LecturerService lecturerService;
     private final DepartmentService departmentService;
 
+    /**
+    * Create a new Course service
+    * */
     public CourseResponse createCourse(CreateCourseRequest request) {
 
         Lecturer lecturer = lecturerService.findById(request.getLecturerId());
@@ -48,7 +51,9 @@ public class CourseService {
         Course saved = courseRepository.save(course);
         return toResponse(saved);
     }
-
+    /**
+     * Retrieve a courses by id
+     * */
     @Transactional(readOnly = true)
     public CourseResponse getCourse(Long id){
         Course course = courseRepository.findById(id)
@@ -57,6 +62,9 @@ public class CourseService {
         return toResponse(course);
     }
 
+    /**
+     * Retrieve all courses
+     * */
     @Transactional(readOnly = true)
     public List<CourseResponse> getAllCourses(){
         return courseRepository.findAll()
@@ -65,6 +73,9 @@ public class CourseService {
                 .toList();
     }
 
+    /**
+     * Update a course
+     * */
     public UpdateCourseResponse updateCourse(Long id, UpdateCourseRequest request){
 
         Course course = findCourseById(id);
@@ -93,6 +104,9 @@ public class CourseService {
         return toUpdatedCourseResponse(saved);
     }
 
+    /**
+     * Deactivate a course
+     * */
     public void deActivateCourse(Long id){
         Course course = findCourseById(id);
 
@@ -100,6 +114,9 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    /**
+     * Helper method to get a course by id
+     * */
     @Transactional(readOnly = true)
     public Course findCourseById(Long id){
         return courseRepository.findById(id)
@@ -114,6 +131,9 @@ public class CourseService {
                 .toList();
     }
 
+    /**
+     * Get all courses that belong to a department by DepartmentId
+     * */
     @Transactional(readOnly = true)
     public List<CourseResponse> getCoursesByDepartmentId(Long id){
 
@@ -123,6 +143,9 @@ public class CourseService {
                 .toList();
     }
 
+    /**
+     * Helper method to cast Course to CourseResponse
+     * */
     private CourseResponse toResponse(Course saved) {
 
         CourseResponse response = new CourseResponse();
@@ -139,6 +162,9 @@ public class CourseService {
         return response;
     }
 
+    /**
+     * Helper method to cast Course to UpdateCourseResponse
+     * */
     public UpdateCourseResponse toUpdatedCourseResponse (Course saved){
         UpdateCourseResponse response = new UpdateCourseResponse();
 
