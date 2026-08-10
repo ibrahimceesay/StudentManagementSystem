@@ -42,7 +42,7 @@ public class StudentController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public StudentResponse getStudent(Long id) {
+    public StudentResponse getStudent(@PathVariable Long id) {
         return studentService.getStudent(id);
     }
 
