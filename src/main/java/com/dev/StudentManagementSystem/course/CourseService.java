@@ -165,7 +165,7 @@ public class CourseService {
     /**
      * Helper method to cast Course to UpdateCourseResponse
      * */
-    public UpdateCourseResponse toUpdatedCourseResponse (Course saved){
+    private UpdateCourseResponse toUpdatedCourseResponse (Course saved){
         UpdateCourseResponse response = new UpdateCourseResponse();
 
         response.setId(saved.getId());
