@@ -78,7 +78,7 @@ public class CourseService {
      * */
     public UpdateCourseResponse updateCourse(Long id, UpdateCourseRequest request){
 
-        Course course = findCourseById(id);
+        Course course = findById(id);
 
         Lecturer lecturer = lecturerService.findById(request.getLecturerId());
 
@@ -103,7 +103,7 @@ public class CourseService {
      * Deactivate a course
      * */
     public void deActivateCourse(Long id){
-        Course course = findCourseById(id);
+        Course course = findById(id);
 
         course.setIsActive(false);
         courseRepository.save(course);
@@ -113,7 +113,7 @@ public class CourseService {
      * Helper method to get a course by id
      * */
     @Transactional(readOnly = true)
-    public Course findCourseById(Long id){
+    public Course findById(Long id){
         return courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
     }
