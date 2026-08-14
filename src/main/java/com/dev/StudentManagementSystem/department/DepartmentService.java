@@ -1,8 +1,6 @@
 package com.dev.StudentManagementSystem.department;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
-import com.dev.StudentManagementSystem.course.CourseService;
-import com.dev.StudentManagementSystem.course.dto.CourseResponse;
 import com.dev.StudentManagementSystem.department.dto.CreateDepartmentRequest;
 import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.department.dto.UpdateDepartmentRequest;
@@ -24,7 +22,6 @@ import java.util.Set;
 public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
-    private final CourseService courseService;
     private final SchoolService schoolService;
 
     /**
@@ -69,6 +66,9 @@ public class DepartmentService {
      */
     @Transactional(readOnly = true)
     public List<DepartmentResponse> getDepartmentsBySchoolId(Long id) {
+        if (!schoolService.existsById(id)) {
+            throw new IllegalStateException("School not found with id: " + id);
+        }
         return departmentRepository.findBySchoolId(id)
                 .stream()
                 .map(this::toResponse)
@@ -83,19 +83,6 @@ public class DepartmentService {
         Department department = findById(id);
 
         return toResponse(department);
-    }
-
-    /**
-     * Retrieve all courses that belong to a department
-     */
-    @Transactional(readOnly = true)
-    public List<CourseResponse> getCoursesByDepartment(Long id) {
-
-        if (!departmentRepository.existsById(id)) {
-            throw new IllegalStateException("Department not found with id: " + id);
-        }
-
-        return courseService.getCoursesByDepartmentId(id);
     }
 
     /**
@@ -153,8 +140,11 @@ public class DepartmentService {
     }
 
     /**
-     * Map type department to type DepartmentResponse
+     * Check if department exists by id
      */
+    public Boolean existsById(Long id) {
+        return departmentRepository.existsById(id);
+    }
 
     private DepartmentResponse toResponse(Department saved) {
 
