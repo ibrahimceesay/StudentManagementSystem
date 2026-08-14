@@ -1,17 +1,13 @@
 package com.dev.StudentManagementSystem.school;
 
 import com.dev.StudentManagementSystem.common.ResourceNotFoundException;
-import com.dev.StudentManagementSystem.department.Department;
-import com.dev.StudentManagementSystem.department.DepartmentRepository;
 import com.dev.StudentManagementSystem.department.DepartmentService;
-import com.dev.StudentManagementSystem.department.dto.DepartmentResponse;
 import com.dev.StudentManagementSystem.school.dto.CreateSchoolRequest;
 import com.dev.StudentManagementSystem.school.dto.SchoolResponse;
 import com.dev.StudentManagementSystem.school.dto.UpdatedSchoolResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
@@ -22,7 +18,6 @@ import java.util.List;
 public class SchoolService {
 
     private final SchoolRepository schoolRepository;
-    private final DepartmentService departmentService;
 
     /**
      * Create new school entity
@@ -53,16 +48,11 @@ public class SchoolService {
     }
 
     /**
-     * Retrieve all departments by school
+     * Check if school exist by id
      */
     @Transactional(readOnly = true)
-    public List<DepartmentResponse> getAllDepartmentsBySchool(Long id) {
-
-        if (!schoolRepository.existsById(id)) {
-            throw new IllegalStateException("School does not exist with id: " + id);
-        }
-
-        return departmentService.getDepartmentsBySchoolId(id);
+    public Boolean existsById(Long id) {
+        return schoolRepository.existsById(id);
     }
 
     /**
@@ -102,9 +92,10 @@ public class SchoolService {
 
     /**
      * Retrieve a school by id
-     * */
+     *
+     */
     @Transactional(readOnly = true)
-    public School findById(Long id){
+    public School findById(Long id) {
         return schoolRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("School not found with id: " + id));
     }
