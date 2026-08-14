@@ -39,11 +39,6 @@ public class LecturerController {
         return lecturerService.getLecturer(id);
     }
 
-    @GetMapping("/{id}/courses")
-    public List<CourseResponse> getLecturerCourses(@PathVariable Long id){
-        return lecturerService.getLecturerCourses(id);
-    }
-
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UpdateLecturerResponse updateLecturer(@PathVariable Long id, @Valid @RequestBody UpdateLecturerRequest request) {
