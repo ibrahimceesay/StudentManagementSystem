@@ -28,8 +28,8 @@ public class CourseService {
     private final DepartmentService departmentService;
 
     /**
-    * Create a new Course service
-    * */
+     * Create a new Course service
+     */
     public CourseResponse createCourse(CreateCourseRequest request) {
 
         Lecturer lecturer = lecturerService.findById(request.getLecturerId());
@@ -51,22 +51,23 @@ public class CourseService {
         Course saved = courseRepository.save(course);
         return toResponse(saved);
     }
+
     /**
      * Retrieve a courses by id
-     * */
+     */
     @Transactional(readOnly = true)
-    public CourseResponse getCourse(Long id){
+    public CourseResponse getCourse(Long id) {
         Course course = courseRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Course not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
 
         return toResponse(course);
     }
 
     /**
      * Retrieve all courses
-     * */
+     */
     @Transactional(readOnly = true)
-    public List<CourseResponse> getAllCourses(){
+    public List<CourseResponse> getAllCourses() {
         return courseRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -74,9 +75,25 @@ public class CourseService {
     }
 
     /**
+     * Get courses assigned to lecturer by id
+     */
+    @Transactional(readOnly = true)
+    public List<CourseResponse> getCoursesByLecturerId(Long id) {
+
+        if (!lecturerService.existsById(id)) {
+            throw new IllegalStateException("Lecturer not found with id: " + id);
+        }
+
+        return courseRepository.findByLecturerId(id)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    /**
      * Update a course
-     * */
-    public UpdateCourseResponse updateCourse(Long id, UpdateCourseRequest request){
+     */
+    public UpdateCourseResponse updateCourse(Long id, UpdateCourseRequest request) {
 
         Course course = findById(id);
 
@@ -84,7 +101,7 @@ public class CourseService {
 
         List<Department> departments = departmentService.findDepartmentsById(request.getDepartmentIds());
 
-        if(departments.size() != request.getDepartmentIds().size()){
+        if (departments.size() != request.getDepartmentIds().size()) {
             throw new IllegalStateException("One or more departments not found in list: " + request.getDepartmentIds());
         }
 
@@ -101,8 +118,8 @@ public class CourseService {
 
     /**
      * Deactivate a course
-     * */
-    public void deActivateCourse(Long id){
+     */
+    public void deActivateCourse(Long id) {
         Course course = findById(id);
 
         course.setIsActive(false);
@@ -111,26 +128,22 @@ public class CourseService {
 
     /**
      * Helper method to get a course by id
-     * */
+     */
     @Transactional(readOnly = true)
-    public Course findById(Long id){
+    public Course findById(Long id) {
         return courseRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + id));
     }
 
-    @Transactional(readOnly = true)
-    public List<CourseResponse> getCoursesByLecturerId(Long id){
-        return courseRepository.findByLecturerId(id)
-                .stream()
-                .map(this::toResponse)
-                .toList();
-    }
-
     /**
      * Get all courses that belong to a department by DepartmentId
-     * */
+     */
     @Transactional(readOnly = true)
-    public List<CourseResponse> getCoursesByDepartmentId(Long id){
+    public List<CourseResponse> getCoursesByDepartmentId(Long id) {
+
+        if(!departmentService.existsById(id)){
+            throw new IllegalStateException("Department not found with id: " + id);
+        }
 
         return courseRepository.findByDepartmentsId(id)
                 .stream()
@@ -140,7 +153,7 @@ public class CourseService {
 
     /**
      * Helper method to cast Course to CourseResponse
-     * */
+     */
     private CourseResponse toResponse(Course saved) {
 
         CourseResponse response = new CourseResponse();
@@ -159,8 +172,8 @@ public class CourseService {
 
     /**
      * Helper method to cast Course to UpdateCourseResponse
-     * */
-    private UpdateCourseResponse toUpdatedCourseResponse (Course saved){
+     */
+    private UpdateCourseResponse toUpdatedCourseResponse(Course saved) {
         UpdateCourseResponse response = new UpdateCourseResponse();
 
         response.setId(saved.getId());
