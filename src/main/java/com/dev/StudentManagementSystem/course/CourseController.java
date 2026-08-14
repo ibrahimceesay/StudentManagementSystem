@@ -37,6 +37,21 @@ public class CourseController {
         return courseService.getAllCourses();
     }
 
+    /**
+     * Retrieve all courses from a department
+     * */
+    @GetMapping("/department/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponse> getCoursesByDepartment(@PathVariable Long id){
+        return courseService.getCoursesByDepartmentId(id);
+    }
+
+    @GetMapping("/lecturer/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CourseResponse> getLecturerCourses(@PathVariable Long id){
+        return courseService.getCoursesByLecturerId(id);
+    }
+
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UpdateCourseResponse updateCourse(@PathVariable Long id, @Valid @RequestBody UpdateCourseRequest request){
