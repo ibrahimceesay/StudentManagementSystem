@@ -50,12 +50,12 @@ public class DepartmentController {
     }
 
     /**
-     * Retrieve all courses from a department
+     * Get mapping to retrieve all departments from a school
      * */
-    @GetMapping("/{id}/courses")
+    @GetMapping("/school/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CourseResponse> getCoursesByDepartment(@PathVariable Long id){
-        return departmentService.getCoursesByDepartment(id);
+    public List<DepartmentResponse> getDepartmentsBySchool(@PathVariable Long id){
+        return departmentService.getDepartmentsBySchoolId(id);
     }
 
     /**
