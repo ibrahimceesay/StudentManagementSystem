@@ -47,15 +47,6 @@ public class SchoolController {
     }
 
     /**
-     * Get mapping to retrieve all departments from a school
-     * */
-    @GetMapping("/{id}/departments")
-    @ResponseStatus(HttpStatus.OK)
-    public List<DepartmentResponse> getAllDepartmentsBySchool(@PathVariable Long id) {
-        return schoolService.getAllDepartmentsBySchool(id);
-    }
-
-    /**
      * Patch mapping to update school information with id
      */
     @PatchMapping("/{id}")
